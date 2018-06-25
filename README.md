@@ -45,7 +45,9 @@ TODO
 
 **Windows**
 
-TODO
+先安装[MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/)安装教程：https://www.jb51.net/article/140957.htm
+接着安装ODBC,在cmd里输入pip install pyodbc，等待安装完成就行
+最后安装[MySQL Connector/ODBC 8.0.11](https://dev.mysql.com/downloads/connector/odbc/)。
 
 **Reference**
 

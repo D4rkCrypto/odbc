@@ -40,3 +40,13 @@ Driver=/usr/local/mysql-connector-odbc-8.0.11-macos10.13-x86-64bit/lib/libmyodbc
 见`test.py`
 
 **Linux**
+
+TODO
+
+**Windows**
+
+TODO
+
+**Reference**
+
+http://www.mranuran.com/blog/2017/08/02/student-database-system-using-pyqt-and-sqlite3/

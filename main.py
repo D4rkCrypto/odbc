@@ -6,7 +6,7 @@
 #----anuranbarman@gmail.com----------------#
 #------------------------------------------#
 
-import sys,sqlite3,time
+import sys,sqlite3,time,pyodbc
 from PyQt5 import QtGui
 from PyQt5.QtWidgets import QTableWidgetItem,QTableWidget,QComboBox,QVBoxLayout,QGridLayout,QDialog,QWidget, QPushButton, QApplication, QMainWindow,QAction,QMessageBox,QLabel,QTextEdit,QProgressBar,QLineEdit
 from PyQt5.QtCore import QCoreApplication
@@ -33,7 +33,8 @@ from PyQt5.QtCore import QCoreApplication
 
 class DBHelper():
     def __init__(self):
-        self.conn=sqlite3.connect("sdms.db")
+        # self.conn=sqlite3.connect("sdms.db")
+        self.conn = pyodbc.connect('DRIVER={MySQL ODBC 8.0 Ansi Driver};SERVER=127.0.0.1;DATABASE=test;UID=root;PWD=test123!')
         self.c=self.conn.cursor()
         self.c.execute("CREATE TABLE IF NOT EXISTS students(roll INTEGER,name TEXT,gender INTEGER,branch INTEGER,year INTEGER,academic_year INTEGER,address TEXT,mobile INTEGER)")
         self.c.execute("CREATE TABLE IF NOT EXISTS payments(reciept_no INTEGER,roll INTEGER,fee INTEGER,semester INTEGER,reciept_date TEXT)")

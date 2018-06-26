@@ -45,7 +45,7 @@ Driver=/usr/local/mysql-connector-odbc-8.0.11-macos10.13-x86-64bit/lib/libmyodbc
 
 先下载[MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/) 下载好后的安装教程：https://www.jb51.net/article/140957.htm
 
-接着安装ODBC：在cmd里输入pip install pyodbc，等待安装完成就行
+接着安装ODBC：在cmd里输入`pip install pyodbc`，等待安装完成就行
 
 最后安装[MySQL Connector/ODBC 8.0.11](https://dev.mysql.com/downloads/connector/odbc/)。
 

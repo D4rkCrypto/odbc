@@ -11,6 +11,8 @@
 - [MySQL Connector/ODBC Doc](https://dev.mysql.com/doc/connector-odbc/en/)
 - [pyodbc Doc](https://github.com/mkleehammer/pyodbc/wiki)
 
+## 环境配置
+
 **MacOS**
 
 需要先安装[MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/)和[ODBC Manager](http://www.odbcmanager.net/)，再安装[MySQL Connector/ODBC 8.0.11](https://dev.mysql.com/downloads/connector/odbc/)。
@@ -39,10 +41,6 @@ Driver=/usr/local/mysql-connector-odbc-8.0.11-macos10.13-x86-64bit/lib/libmyodbc
 
 见`test.py`
 
-**Linux**
-
-TODO
-
 **Windows**
 
 先下载[MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/) 下载好后的安装教程：https://www.jb51.net/article/140957.htm
@@ -51,21 +49,20 @@ TODO
 
 最后安装[MySQL Connector/ODBC 8.0.11](https://dev.mysql.com/downloads/connector/odbc/)。
 
-以上就是实验环境的配置，接下来测试杨昊的那个test.py：
+以上就是实验环境的配置，接下来测试`test.py`：
 
-1.打开cmd，输入 mysql -uroot -p密码
+1. 打开cmd，输入`mysql -uroot -p密码`
+2. 输入`create database test;`，这是创建数据库test
+3. 输入`use test;`，这是修改test数据库
+4. `create table S(Sno CHAR(9) PRIMARY KEY,Sname CHAR(20) UNIQUE,Ssex CHAR(2),Sage SMALLINT,Sdept CHAR(20));`
 
-2.输入create database test; //这是创建数据库test
+这样子就创建好了一个表，就可以运行`test.py`了，注意`test.py`代码要修改一些东西：
 
-3.输入use test；//这是修改test数据库
-
-4.create table S(Sno CHAR(9) PRIMARY KEY,Sname CHAR(20) UNIQUE,Ssex CHAR(2),Sage SMALLINT,Sdept CHAR(20))；
-
-这样子就创建好了一个表，就可以运行test.py了，注意test.py代码要修改一些东西：
-
+```python
 conn = pyodbc.connect('DRIVER={MySQL ODBC 8.0 Ansi Driver};SERVER=127.0.0.1;DATABASE=test;UID=root;PWD=密码')
 
 for row in cursor.execute("desc S"): //这里S是我刚才创建的表S
+```
 
 **Reference**
 

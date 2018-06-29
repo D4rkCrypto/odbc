@@ -93,12 +93,10 @@ class DBHelper():
                                                 'Payment is added successfully to the database.\nReference ID=' + str(
 
                                                     reciept_no))
-                #here we try to check if admin is trying to make payment for the same semester twice.
                 elif self.data[0][3] == semester:
                     QMessageBox.warning(QMessageBox(), 'Error',
                                         'Student with roll no ' + str(roll) +
                                         ' has already paid this semester fees.')
-                #everything is fine. Go ahead and make the payment.
                 else:
                     self.c.execute(
                         "INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (?,?,?,?,?)",
@@ -110,16 +108,9 @@ class DBHelper():
 
         except Exception:
             QMessageBox.warning(QMessageBox(), 'Error', 'Could not add payment to the database.')
-
         self.c.close()
         self.conn.close()
 
-        #similar to the searchStudent() it will search for any record holding the roll number in the database.
-        #it will then pass the returned list from the DB to the function searchStudentFunction()
-        #here in the query we use ORDER BY reciept_no DESC so that rows with semester value as 1 comes first
-        #if it exists. Then we can be sure that student has paid his/her both semester fees as we overcame
-        #the possibility of adding Odd semester fee first. if there are any record for two semester
-        #so they will come as semester=1 first then semester=0.
     def searchPayment(self, roll):
         self.c.execute("SELECT * from payments WHERE roll="+str(roll)+" ORDER BY reciept_no DESC")
         self.data = self.c.fetchone()
@@ -127,14 +118,11 @@ class DBHelper():
             QMessageBox.warning(QMessageBox(), 'Error', 'Could not find any student with roll no '+str(roll))
             return None
         self.list = self.data
-        # for j in range(6):
-        #     self.list.append(self.data[j])
         self.c.close()
         self.conn.close()
         showPaymentFunction(self.list)
 
-#this is a login function which shows a dialog for admin to log into the system.
-# Default username and password are admin and admin respectively.
+
 class Login(QDialog):
     def __init__(self, parent=None):
         super(Login, self).__init__(parent)
@@ -157,7 +145,7 @@ class Login(QDialog):
             self.accept()
         else:
             QMessageBox.warning(
-                self, 'Error', 'Bad user or password')
+                self, 'Error', 'Wrong username or password')
 
 
 def showStudent(alist):
@@ -171,6 +159,7 @@ def showStudent(alist):
     academic_year = -1
     roll = alist[0]
     name = alist[1]
+    print(str(name))
     if alist[2] == 0:
         gender = "Male"
     else:

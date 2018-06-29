@@ -17,18 +17,22 @@ from PyQt5.QtWidgets import QLineEdit
 
 class DBHelper():
     def __init__(self):
-        self.conn = pyodbc.connect('DRIVER={MySQL ODBC 8.0 Ansi Driver};SERVER=127.0.0.1;DATABASE=test;UID=root;PWD=test123!')
+        self.conn = pyodbc.connect('DRIVER={MySQL ODBC 8.0 Ansi Driver};SERVER=127.0.0.1;DATABASE=test;UID=root;PWD=test123!;charset=utf8')
         self.c = self.conn.cursor()
-        self.c.execute("CREATE TABLE IF NOT EXISTS students(roll INTEGER,name TEXT,gender INTEGER,branch INTEGER,year INTEGER,academic_year INTEGER,address TEXT,mobile INTEGER)")
-        self.c.execute("CREATE TABLE IF NOT EXISTS payments(reciept_no INTEGER,roll INTEGER,fee INTEGER,semester INTEGER,reciept_date TEXT)")
-        self.c.execute("CREATE TABLE IF NOT EXISTS genders(id INTEGER,name TEXT)")
-        self.c.execute("CREATE TABLE IF NOT EXISTS branches(id INTEGER,name TEXT)")
+        self.c.execute("CREATE TABLE IF NOT EXISTS students(roll INTEGER,name VARCHAR(50),gender INTEGER,branch INTEGER,year INTEGER,academic_year INTEGER,address VARCHAR(50),mobile VARCHAR(50))")
+        self.c.execute("CREATE TABLE IF NOT EXISTS payments(reciept_no INTEGER,roll INTEGER,fee INTEGER,semester INTEGER,reciept_date VARCHAR(50))")
+        self.c.execute("CREATE TABLE IF NOT EXISTS genders(id INTEGER,name VARCHAR(50))")
+        self.c.execute("CREATE TABLE IF NOT EXISTS branches(id INTEGER,name VARCHAR(50))")
         self.data = []
         self.list = []
 
     def addStudent(self, roll, name, gender, branch, year, academic_year, address, mobile):
         try:
-            self.c.execute("INSERT INTO students (roll,name,gender,branch,year,academic_year,address,mobile) VALUES (?,?,?,?,?,?,?,?)",
+            self.c.execute("SELECT * from students WHERE roll=" + str(roll))
+            recvdata = self.c.fetchone()
+            if recvdata:
+                raise Exception
+            self.c.execute("INSERT INTO students (roll,name,gender,branch,year,academic_year,address,mobile) VALUES (%d,'%s',%d,%d,%d,%d,'%s','%s')" %
                            (roll, name, gender, branch, year, academic_year, address, mobile))
             self.conn.commit()
             self.c.close()
@@ -159,31 +163,28 @@ def showStudent(alist):
     academic_year = -1
     roll = alist[0]
     name = alist[1]
-    print(str(name))
     if alist[2] == 0:
-        gender = "Male"
+        gender = "男"
     else:
-        gender = "Female"
+        gender = "女"
     if alist[3] == 0:
-        branch = "Mechanical Engineering"
+        branch = "计算机软件"
     elif alist[3] == 1:
-        branch = "Civil Engineering"
+        branch = "计算机科学与技术"
     elif alist[3] == 2:
-        branch = "Electrical Engineering"
+        branch = "信息安全"
     elif alist[3] == 3:
-        branch = "Electronics and Communication Engineering"
+        branch = "软件工程"
     elif alist[3] == 4:
-        branch = "Computer Science and Engineering"
-    elif alist[3] == 5:
-        branch = "Information Technology"
+        branch = "物联网工程"
     if alist[4] == 0:
-        year = "1st"
+        year = "大一"
     elif alist[4] == 1:
-        year = "2nd"
+        year = "大二"
     elif alist[4] == 2:
-        year = "3rd"
+        year = "大三"
     elif alist[4] == 3:
-        year = "4th"
+        year = "大四"
     academic_year = alist[5]
     address = alist[6]
     mobile = alist[7]
@@ -192,21 +193,21 @@ def showStudent(alist):
     table.setWindowTitle("Student Details")
     table.setRowCount(8)
     table.setColumnCount(2)
-    table.setItem(0, 0, QTableWidgetItem("Roll"))
+    table.setItem(0, 0, QTableWidgetItem("编号"))
     table.setItem(0, 1, QTableWidgetItem(str(roll)))
-    table.setItem(1, 0, QTableWidgetItem("Name"))
+    table.setItem(1, 0, QTableWidgetItem("姓名"))
     table.setItem(1, 1, QTableWidgetItem(str(name)))
-    table.setItem(2, 0, QTableWidgetItem("Gender"))
+    table.setItem(2, 0, QTableWidgetItem("性别"))
     table.setItem(2, 1, QTableWidgetItem(str(gender)))
-    table.setItem(3, 0, QTableWidgetItem("Branch"))
+    table.setItem(3, 0, QTableWidgetItem("专业"))
     table.setItem(3, 1, QTableWidgetItem(str(branch)))
-    table.setItem(4, 0, QTableWidgetItem("Year"))
+    table.setItem(4, 0, QTableWidgetItem("年级"))
     table.setItem(4, 1, QTableWidgetItem(str(year)))
-    table.setItem(5, 0, QTableWidgetItem("Academic Year"))
+    table.setItem(5, 0, QTableWidgetItem("学年制"))
     table.setItem(5, 1, QTableWidgetItem(str(academic_year)))
-    table.setItem(6, 0, QTableWidgetItem("Address"))
+    table.setItem(6, 0, QTableWidgetItem("地址"))
     table.setItem(6, 1, QTableWidgetItem(str(address)))
-    table.setItem(7, 0, QTableWidgetItem("Mobile"))
+    table.setItem(7, 0, QTableWidgetItem("手机"))
     table.setItem(7, 1, QTableWidgetItem(str(mobile)))
     table.horizontalHeader().setStretchLastSection(True)
     table.show()
@@ -265,37 +266,34 @@ class AddStudent(QDialog):
         self.roll = -1
         self.name = ""
         self.address = ""
-        self.mobile = -1
+        self.mobile = ""
         self.academic_year = -1
-        self.btnCancel = QPushButton("Cancel", self)
-        self.btnReset = QPushButton("Reset", self)
-        self.btnAdd = QPushButton("Add", self)
-        self.btnCancel.setFixedHeight(30)
+        self.btnReset = QPushButton("清空", self)
+        self.btnAdd = QPushButton("添加", self)
         self.btnReset.setFixedHeight(30)
         self.btnAdd.setFixedHeight(30)
         self.yearCombo = QComboBox(self)
-        self.yearCombo.addItem("1st")
-        self.yearCombo.addItem("2nd")
-        self.yearCombo.addItem("3rd")
-        self.yearCombo.addItem("4th")
+        self.yearCombo.addItem("大一")
+        self.yearCombo.addItem("大二")
+        self.yearCombo.addItem("大三")
+        self.yearCombo.addItem("大四")
         self.genderCombo = QComboBox(self)
-        self.genderCombo.addItem("Male")
-        self.genderCombo.addItem("Female")
+        self.genderCombo.addItem("男")
+        self.genderCombo.addItem("女")
         self.branchCombo = QComboBox(self)
-        self.branchCombo.addItem("Mechanical")
-        self.branchCombo.addItem("Civil")
-        self.branchCombo.addItem("Electrical")
-        self.branchCombo.addItem("Electronics and Communication")
-        self.branchCombo.addItem("Computer Science")
-        self.branchCombo.addItem("Information Technology")
-        self.rollLabel = QLabel("Roll No")
-        self.nameLabel = QLabel("Name")
-        self.addressLabel = QLabel("Address")
-        self.mobLabel = QLabel("Mobile")
-        self.yearLabel = QLabel("Current Year")
-        self.academicYearLabel = QLabel("Academic Year")
-        self.branchLabel = QLabel("Branch")
-        self.genderLabel = QLabel("Gender")
+        self.branchCombo.addItem("计算机软件")
+        self.branchCombo.addItem("计算机科学与技术")
+        self.branchCombo.addItem("信息安全")
+        self.branchCombo.addItem("软件工程")
+        self.branchCombo.addItem("物联网工程")
+        self.rollLabel = QLabel("编号")
+        self.nameLabel = QLabel("姓名")
+        self.addressLabel = QLabel("地址")
+        self.mobLabel = QLabel("手机")
+        self.yearLabel = QLabel("年级")
+        self.academicYearLabel = QLabel("学年制")
+        self.branchLabel = QLabel("专业")
+        self.genderLabel = QLabel("性别")
         self.rollText = QLineEdit(self)
         self.nameText = QLineEdit(self)
         self.addressText = QLineEdit(self)
@@ -319,16 +317,14 @@ class AddStudent(QDialog):
         self.grid.addWidget(self.yearCombo, 7, 2)
         self.grid.addWidget(self.academicYearText, 8, 2)
         self.grid.addWidget(self.btnReset, 9, 1)
-        self.grid.addWidget(self.btnCancel, 9, 3)
         self.grid.addWidget(self.btnAdd, 9, 2)
         self.btnAdd.clicked.connect(self.addStudent)
-        self.btnCancel.clicked.connect(QApplication.instance().quit)
         self.btnReset.clicked.connect(self.reset)
         self.setLayout(self.grid)
         self.setWindowTitle("Add Student Details")
         self.resize(500, 300)
         self.show()
-        sys.exit(self.exec())
+        self.exec()
 
     def reset(self):
         self.rollText.setText("")
@@ -345,7 +341,7 @@ class AddStudent(QDialog):
         self.name = self.nameText.text()
         self.academic_year = int(self.academicYearText.text())
         self.address = self.addressText.text()
-        self.mobile = int(self.mobText.text())
+        self.mobile = self.mobText.text()
         dbhelper = DBHelper()
         dbhelper.addStudent(self.roll, self.name, self.gender, self.branch,
                             self.year, self.academic_year, self.address, self.mobile)
@@ -359,10 +355,8 @@ class AddPayment(QDialog):
         self.fee = -1
         self.semester = -1
         self.date = -1
-        self.btnCancel = QPushButton("Cancel", self)
         self.btnReset = QPushButton("Reset", self)
         self.btnAdd = QPushButton("Add", self)
-        self.btnCancel.setFixedHeight(30)
         self.btnReset.setFixedHeight(30)
         self.btnAdd.setFixedHeight(30)
         self.semesterCombo = QComboBox(self)
@@ -381,17 +375,14 @@ class AddPayment(QDialog):
         self.grid.addWidget(self.feeLabelText, 2, 2)
         self.grid.addWidget(self.semesterCombo, 3, 2)
         self.grid.addWidget(self.btnReset, 4, 1)
-        self.grid.addWidget(self.btnCancel, 4, 3)
         self.grid.addWidget(self.btnAdd, 4, 2)
         self.btnAdd.clicked.connect(self.addPayment)
-        self.btnCancel.clicked.connect(QApplication.instance().quit)
         self.btnReset.clicked.connect(self.reset)
-
         self.setLayout(self.grid)
         self.setWindowTitle("Add Payment Details")
         self.resize(400, 200)
         self.show()
-        sys.exit(self.exec())
+        self.exec()
     def reset(self):
         self.rollText.setText("")
         self.feeLabelText.setText("")

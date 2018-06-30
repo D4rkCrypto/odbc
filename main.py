@@ -231,9 +231,9 @@ def showPaymentFunction(alist):
     roll = alist[1]
     fee = alist[2]
     if alist[3] == 0:
-        semester = "Odd Semester"
+        semester = "一学期"
     elif alist[3] == 1:
-        semester = "Paid for both Odd and Even Semester"
+        semester = "一学年"
     recipt_date = alist[4]
     table = QTableWidget()
     QTableWidgetItem()
@@ -363,8 +363,8 @@ class AddPayment(QDialog):
         self.btnReset.setFixedHeight(30)
         self.btnAdd.setFixedHeight(30)
         self.semesterCombo = QComboBox(self)
-        self.semesterCombo.addItem("Odd")
-        self.semesterCombo.addItem("Even")
+        self.semesterCombo.addItem("一学期")
+        self.semesterCombo.addItem("一学年")
         self.rollLabel = QLabel("Roll No")
         self.feeLabel = QLabel("Total Fee")
         self.semesterLabel = QLabel("Semester")

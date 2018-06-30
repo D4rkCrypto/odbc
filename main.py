@@ -21,8 +21,6 @@ class DBHelper():
         self.c = self.conn.cursor()
         self.c.execute("CREATE TABLE IF NOT EXISTS students(roll INTEGER,name VARCHAR(50),gender INTEGER,branch INTEGER,year INTEGER,academic_year INTEGER,address VARCHAR(50),mobile VARCHAR(50))")
         self.c.execute("CREATE TABLE IF NOT EXISTS payments(reciept_no INTEGER,roll INTEGER,fee INTEGER,semester INTEGER,reciept_date VARCHAR(50))")
-        self.c.execute("CREATE TABLE IF NOT EXISTS genders(id INTEGER,name VARCHAR(50))")
-        self.c.execute("CREATE TABLE IF NOT EXISTS branches(id INTEGER,name VARCHAR(50))")
         self.data = []
         self.list = []
 

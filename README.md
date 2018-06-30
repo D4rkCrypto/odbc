@@ -1,19 +1,20 @@
 # odbc
-**Requirements**
+
+## Requirements
 
 - Python 3.x
 - [pyodbc](https://github.com/mkleehammer/pyodbc)
 - [MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/)
 - [MySQL Connector/ODBC 8.0.11](https://dev.mysql.com/downloads/connector/odbc/)
 
-**Docs**
+## Docs
 
 - [MySQL Connector/ODBC Doc](https://dev.mysql.com/doc/connector-odbc/en/)
 - [pyodbc Doc](https://github.com/mkleehammer/pyodbc/wiki)
 
 ## 环境配置
 
-**MacOS**
+### MacOS
 
 需要先安装[MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/)和[ODBC Manager](http://www.odbcmanager.net/)，再安装[MySQL Connector/ODBC 8.0.11](https://dev.mysql.com/downloads/connector/odbc/)。
 
@@ -41,9 +42,9 @@ Driver=/usr/local/mysql-connector-odbc-8.0.11-macos10.13-x86-64bit/lib/libmyodbc
 
 见`test.py`
 
-**Windows**
+### Windows
 
-先下载[MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/) 下载好后的安装教程：https://www.jb51.net/article/140957.htm
+先下载[MySQL Community Server 8.0.11](https://dev.mysql.com/downloads/mysql/)，下载好后的[安装教程](https://www.jb51.net/article/140957.htm)
 
 接着安装ODBC：在cmd里输入`pip install pyodbc`，等待安装完成就行
 
@@ -64,6 +65,6 @@ conn = pyodbc.connect('DRIVER={MySQL ODBC 8.0 Ansi Driver};SERVER=127.0.0.1;DATA
 for row in cursor.execute("desc S"): //这里S是我刚才创建的表S
 ```
 
-**Reference**
+## Reference
 
-http://www.mranuran.com/blog/2017/08/02/student-database-system-using-pyqt-and-sqlite3/
+[blog](http://www.mranuran.com/blog/2017/08/02/student-database-system-using-pyqt-and-sqlite3/)

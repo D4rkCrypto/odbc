@@ -15,6 +15,9 @@ from PyQt5.QtWidgets import QMessageBox
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtWidgets import QLineEdit
 
+class UndefError(Exception):
+    pass
+
 class DBHelper():
     def __init__(self):
         self.conn = pyodbc.connect('DRIVER={MySQL ODBC 8.0 Ansi Driver};SERVER=127.0.0.1;DATABASE=test;UID=root;PWD=test123!;charset=utf8')
@@ -57,6 +60,10 @@ class DBHelper():
         reciept_no = int(time.time())
         date = time.strftime("%b %d %Y %H:%M:%S")
         try:
+            self.c.execute("SELECT * from students WHERE roll=" + str(roll))
+            self.data = self.c.fetchone()
+            if not self.data:
+                raise UndefError
             self.c.execute("SELECT * from payments WHERE roll=" + str(roll))
             self.conn.commit()
             if not self.c.fetchone():
@@ -68,7 +75,7 @@ class DBHelper():
                                             ' has Odd Semester fee payment due.Pay that first.')
                         return None
                 else:
-                    self.c.execute("INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (?,?,?,?,?)",
+                    self.c.execute("INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (%d,%d,%d,%d,'%s')" %
                                    (reciept_no, roll, fee, semester, date))
                     self.conn.commit()
                 QMessageBox.information(QMessageBox(), 'Successful',
@@ -87,9 +94,8 @@ class DBHelper():
                         QMessageBox.warning(QMessageBox(), 'Error',
                                             'Student with roll no ' + str(roll) + ' has Odd Semester fee payment due.Pay that first.')
                     else:
-                        self.c.execute(
-                            "INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (?,?,?,?,?)",
-                            (reciept_no, roll, fee, semester, date))
+                        self.c.execute("INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (%d,%d,%d,%d,'%s')" %
+                                       (reciept_no, roll, fee, semester, date))
                         self.conn.commit()
                         QMessageBox.information(QMessageBox(), 'Successful',
                                                 'Payment is added successfully to the database.\nReference ID=' + str(
@@ -100,14 +106,14 @@ class DBHelper():
                                         'Student with roll no ' + str(roll) +
                                         ' has already paid this semester fees.')
                 else:
-                    self.c.execute(
-                        "INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (?,?,?,?,?)",
-                        (reciept_no, roll, fee, semester, date))
+                    self.c.execute("INSERT INTO payments (reciept_no,roll,fee,semester,reciept_date) VALUES (%d,%d,%d,%d,'%s')" %
+                                   (reciept_no, roll, fee, semester, date))
                     self.conn.commit()
                     QMessageBox.information(QMessageBox(), 'Successful',
-                                            'Payment is added successfully to the database.\nReference ID=' + str(
-                                                reciept_no))
-
+                                            'Payment is added successfully to the database.\nReference ID=' +
+                                            str(reciept_no))
+        except UndefError:
+            QMessageBox.warning(QMessageBox(), 'Error', 'Could not find any student with roll no '+str(roll))
         except Exception:
             QMessageBox.warning(QMessageBox(), 'Error', 'Could not add payment to the database.')
         self.c.close()
@@ -146,8 +152,7 @@ class Login(QDialog):
         if self.textName.text() == 'admin' and self.textPass.text() == 'admin':
             self.accept()
         else:
-            QMessageBox.warning(
-                self, 'Error', 'Wrong username or password')
+            QMessageBox.warning(self, 'Error', 'Wrong username or password')
 
 
 def showStudent(alist):

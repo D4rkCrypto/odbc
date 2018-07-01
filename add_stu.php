@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-</head>
-<body>
-    <script type="text/javascript" src="js/canvas-nest.js"></script>
-</body>
-</html>
 <?php
 // 表单其他的处理部分
 $name = $_REQUEST["name"];

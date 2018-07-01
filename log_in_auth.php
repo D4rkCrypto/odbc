@@ -41,6 +41,4 @@ if($level=="administrator")
 
     }
 }
-
-
 ?>

@@ -7,6 +7,7 @@
     <link href="css/custom.css" rel="stylesheet" />
 </head>
 <body>
+<script type="text/javascript" src="js/canvas-nest.js"></script>
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
@@ -16,8 +17,8 @@
     <section class="top-bar-section">
         <!-- Left Nav Section -->
         <ul>
-            <li><a href="add_stu.html">Add Student</a></li>
-            <li><a href="query_stu.html">Query Student</a></li>
+            <li><a href="add_stu.html">添加学生</a></li>
+            <li><a href="query_stu.html">查询学生</a></li>
         </ul>
     </section>
 </nav>
@@ -44,13 +45,6 @@
         </thead>
         <tbody>
 <?php
-/**
- * Created by PhpStorm.
- * User: Maybe霏
- * Date: 2015/6/8
- * Time: 9:06
- */
-header("Content-type: text/html; charset=utf-8");
 # false 表示之前没有判断条件
 $has_position = false;
 $query = "select * from student";

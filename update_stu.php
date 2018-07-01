@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Maybe霏
- * Date: 2015/6/10
- * Time: 12:50
- */
-
 $name = $_REQUEST["name"];
 $password = $_REQUEST["password"];
 $re_password = $_REQUEST["confirm_pwd"];
@@ -32,7 +25,7 @@ else
 
 # handle password
 if($password != $re_password){
-    echo "<script>alert(\"password not match!\");location.href=\"add_stu.html\"</script>";
+    echo "<script>alert(\"两次输入的密码不一致\");location.href=\"add_stu.html\"</script>";
     return;
 }
 
@@ -52,9 +45,9 @@ echo $update;
 echo $name;
 $result = $db->exec($update);
 if(!$result){
-    echo "<script>alert(\"db error\");location.href=\"student_index.php?id=$student_number\"</script>";
+    echo "<script>alert(\"数据库错误\");location.href=\"student_index.php?id=$student_number\"</script>";
 }else{
-    echo "<script>alert(\"success\");location.href=\"student_index.php?id=$student_number\"</script>";
+    echo "<script>alert(\"成功\");location.href=\"student_index.php?id=$student_number\"</script>";
 }
 $db->close();
 
@@ -89,7 +82,7 @@ function handleFile($student_number){
     }
     else
     {
-        echo "<script>alert(\"Invalid file\")</script>";
+        echo "<script>alert(\"无效文件\")</script>";
         return false;
     }
 }

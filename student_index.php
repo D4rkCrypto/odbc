@@ -20,8 +20,8 @@ else{
 <head lang="en">
     <meta charset="UTF-8">
     <title>学生主页</title>
-    <link href="foundation-5.5.0/css/foundation.min.css" rel="stylesheet"/>
-    <link href="foundation-5.5.0/css/custom.css" rel="stylesheet" />
+    <link href="css/foundation.min.css" rel="stylesheet"/>
+    <link href="css/custom.css" rel="stylesheet" />
 </head>
 <body>
 <nav class="top-bar" data-topbar role="navigation">
@@ -30,9 +30,6 @@ else{
             <h1><a href="index.html">Home</a></h1>
         </li>
     </ul>
-    <section class="top-bar-section">
-        <!-- Right Nav Section -->
-    </section>
 </nav>
 <header>
     <div class="row">

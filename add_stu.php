@@ -3,16 +3,11 @@
 <head lang="en">
     <meta charset="UTF-8">
 </head>
-<body></body>
+<body>
+    <script type="text/javascript" src="js/canvas-nest.js"></script>
+</body>
 </html>
 <?php
-/**
- * Created by PhpStorm.
- * User: Maybe霏
- * Date: 2015/6/6
- * Time: 9:48
- */
-
 // 表单其他的处理部分
 $name = $_REQUEST["name"];
 $password = $_REQUEST["password"];
@@ -43,7 +38,7 @@ else
 
 # handle password
 if($password != $re_password){
-    echo "<script>alert(\"password not match!\");location.href=\"add_stu.html\"</script>";
+    echo "<script>alert(\"两次输入的密码不一致\");location.href=\"add_stu.html\"</script>";
     return;
 }
 # 文件处理发生错误
@@ -70,14 +65,14 @@ if(!$result){
         echo $insert;
         $result = $db->exec($insert);
         if(!$result){
-            echo "<script>alert(\"db wrong\");location.href=\"add_stu.html\"</script>";
+            echo "<script>alert(\"数据库错误\");location.href=\"add_stu.html\"</script>";
         }else{
-            echo "<script>alert(\"success\");location.href=\"admin_index.html\";</script>";
+            echo "<script>alert(\"添加成功\");location.href=\"admin_index.html\";</script>";
         }
         $db->close();
     }else{
         # 数据库中有这个学号，爆出错误
-        echo "<script>alert(\"this one exists\");location.href=\"add_stu.html\"</script>";
+        echo "<script>alert(\"该学生已经存在了\");location.href=\"add_stu.html\"</script>";
         $db->close();
     }
 }
@@ -91,7 +86,7 @@ function handleFile($student_number){
         if ($_FILES["file"]["error"] > 0)
         {
             echo "Error: " . $_FILES["file"]["error"] . "<br />";
-            echo "<script>alert(\"file error\")</script>";
+            echo "<script>alert(\"头像错误\")</script>";
             return false;
         }
         else
@@ -105,7 +100,7 @@ function handleFile($student_number){
             if (file_exists("upload/" . $student_number.".jpg"))
             {
                 echo "upload/" . $student_number.".jpg" . " already exists. ";
-                echo "<script>alert(\"this student number has exist!\")</script>";
+                echo "<script>alert(\"这个学号已经存在了\")</script>";
                 return false;
             }
             else
@@ -121,7 +116,7 @@ function handleFile($student_number){
     }
     else
     {
-        echo "<script>alert(\"Invalid file\")</script>";
+        echo "<script>alert(\"头像不符合要求\")</script>";
         return false;
     }
 }

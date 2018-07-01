@@ -1,5 +1,4 @@
 <?php
-header("Content-type: text/html; charset=utf-8");
 $id = $_REQUEST['id'];
 $db = new SQLite3("student.sqlite");
 $result = $db->query("select * from student WHERE student_number=$id;");
@@ -27,7 +26,7 @@ else{
 <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
         <li class="name">
-            <h1><a href="index.html">Home</a></h1>
+            <h1><a href="index.html">主页</a></h1>
         </li>
     </ul>
 </nav>
@@ -41,19 +40,19 @@ else{
 </header>
 <div class="row">
     <form class="large-4 large-offset-4" action="update_stu.php" method="post" enctype="multipart/form-data">
-        <label>Name</label>
+        <label>姓名</label>
         <input type="text" name="name" value="<?php echo $item['name'];?>" required/>
-        <label>Password</label>
+        <label>密码</label>
         <input type="password" name="password" value="<?php echo $item['password'];?>" required />
-        <label>Confirm Password</label>
+        <label>确认密码</label>
         <input type="password" name="confirm_pwd" value="<?php echo $item['password'];?>" required/>
-        <label>Class</label>
-        <input type="number" name="class" value="<?php echo $item['class'];?>" readonly>
-        <label>Student Number</label>
+        <label>班级</label>
+        <input type="text" name="class" value="<?php echo $item['class'];?>" readonly>
+        <label>学号</label>
         <input type="text" name="std_number" value="<?php echo $item['student_number'];?>" readonly/>
-        <label>Sex</label>
+        <label>性别</label>
         <input type="text" name="sex" value="<?php echo $item['sex']?>" readonly><br>
-        <label>Hobby</label>
+        <label>爱好</label>
         <?php
         # var_dump($item['hobby']);
         $hobby = explode(',', $item['hobby']);
@@ -71,18 +70,18 @@ else{
         <input id="sleep" type="checkbox" name="internet[]" value="sleep" <?php if(in_array("sleep", $hobby)){echo "checked";}?> />
         <label for="sleep">Sleep</label>
         <br>
-        <label>Avatar</label>
+        <label>头像</label>
         <img class="th" src="<?php echo $item['avatar'];?>" /><br><br>
-        <label>Upload</label>
+        <label>上传</label>
         <input type="file" name="file">
         <br>
-        <label>Grades</label>
+        <label>成绩</label>
         <input type="number" name="grades" min="0" max="100" value="<?php echo $item['grade'];?>" readonly required="required">
-        <label>Remark</label>
+        <label>备注</label>
         <textarea name="remark"><?php echo $item['remark'];?></textarea>
         <br>
         <br>
-        <input class="small radius button left" type="submit" value="Update">
+        <input class="small radius button left" type="submit" value="更新">
     </form>
 </div>
 

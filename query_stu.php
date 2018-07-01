@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>管理员查找学生</title>
+    <title>查询学生</title>
     <link href="css/foundation.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet" />
 </head>

@@ -1,17 +1,14 @@
 <?php
+include 'config.php';
 $id = $_REQUEST['id'];
-$db = new SQLite3("student.sqlite");
-$result = $db->query("select * from student WHERE student_number=$id;");
+$result = $db->query("select * from student WHERE student_number='$id';");
 if(!$result) {
-    $db->close();
-    echo "<script>alert(\"db wrong\");
+    echo "<script>alert(\"数据库错误\");
                 location.href=\"index.html\";</script>";
     return;
 }
 else{
-    $item = $result->fetchArray();
-    $db->close();
-    # var_dump($item);
+    $item = $result->fetch();
 }
 ?>
 <!DOCTYPE html>
@@ -41,22 +38,20 @@ else{
 <div class="row">
     <form class="large-4 large-offset-4" action="update_stu.php" method="post" enctype="multipart/form-data">
         <label>姓名</label>
-        <input type="text" name="name" value="<?php echo $item['name'];?>" required/>
+        <input type="text" name="name" value="<?php echo $item['name'];?>" required />
         <label>密码</label>
         <input type="password" name="password" value="<?php echo $item['password'];?>" required />
         <label>确认密码</label>
-        <input type="password" name="confirm_pwd" value="<?php echo $item['password'];?>" required/>
+        <input type="password" name="confirm_pwd" value="<?php echo $item['password'];?>" required />
         <label>班级</label>
-        <input type="text" name="class" value="<?php echo $item['class'];?>" readonly>
+        <input type="text" name="class" value="<?php echo $item['class'];?>" required />
         <label>学号</label>
-        <input type="text" name="std_number" value="<?php echo $item['student_number'];?>" readonly/>
+        <input type="text" name="std_number" value="<?php echo $item['student_number'];?>" readonly />
         <label>性别</label>
-        <input type="text" name="sex" value="<?php echo $item['sex']?>" readonly><br>
+        <input type="text" name="sex" value="<?php echo $item['sex']?>" readonly />
         <label>爱好</label>
         <?php
-        # var_dump($item['hobby']);
-        $hobby = explode(',', $item['hobby']);
-        # var_dump($hobby);
+            $hobby = explode(',', $item['hobby']);
         ?>
         <input id="cs" type="checkbox" name="internet[]" value="cs"  <?php if(in_array("cs", $hobby)){echo "checked";}?> />
         <label for="cs">CS</label>

@@ -1,4 +1,5 @@
 <?php
+include 'config.php';
 // 表单其他的处理部分
 $name = $_REQUEST["name"];
 $password = $_REQUEST["password"];
@@ -16,6 +17,14 @@ if(isset($_REQUEST['internet'])){
     else
         $hobby = implode(",",$checkbox);
 }
+
+# check student number
+$pattern = '/^(SZ|SX|BX)[0-9]{7}$|^[0-9]{9}$/';
+if(!preg_match($pattern, $student_number)) {
+    echo "<script>alert(\"学号格式错误\");location.href=\"add_stu.html\"</script>";
+    return;
+}
+
 # grade
 if(isset($_REQUEST["grades"]))
     $grade = $_REQUEST["grades"];
@@ -39,18 +48,16 @@ if(!$avatar){
     return;
 }
 
-
-$db = new SQLite3("student.sqlite");
-$insert = "insert into student VALUES ( '$name', '$password', $class, $student_number, '$sex',
+$insert = "insert into student VALUES ( '$name', '$password', $class, '$student_number', '$sex',
  '$hobby', $grade, '$remark', '$avatar');";
-$query = "select * from student WHERE student_number = $student_number";
+$query = "select * from student WHERE student_number = '$student_number'";
 
 # check if db has this one
 $result = $db->query($query);
 if(!$result){
-    echo "<script>alert(\"db error\");location.href=\"add_stu.html\"</script>";
+    echo "<script>alert(\"数据库错误\");location.href=\"add_stu.html\"</script>";
 }else{
-    $item = $result->fetchArray();
+    $item = $result->fetch();
     if(!$item){
         # 如果数据库中没有这个学号，插入
         echo $insert;
@@ -60,11 +67,9 @@ if(!$result){
         }else{
             echo "<script>alert(\"添加成功\");location.href=\"admin_index.html\";</script>";
         }
-        $db->close();
     }else{
         # 数据库中有这个学号，爆出错误
         echo "<script>alert(\"该学生已经存在了\");location.href=\"add_stu.html\"</script>";
-        $db->close();
     }
 }
 
@@ -90,15 +95,17 @@ function handleFile($student_number){
             # store the image
             if (file_exists("upload/" . $student_number.".jpg"))
             {
-                echo "upload/" . $student_number.".jpg" . " already exists. ";
-                echo "<script>alert(\"这个学号已经存在了\")</script>";
-                return false;
+                move_uploaded_file($_FILES["file"]["tmp_name"],
+                    "upload/" . $student_number.".jpg");
+                echo "头像已存在: " . "upload/" . $student_number.".jpg";
+                $avatar = "upload/" . $student_number.".jpg";
+                return $avatar;
             }
             else
             {
                 move_uploaded_file($_FILES["file"]["tmp_name"],
                     "upload/" . $student_number.".jpg");
-                echo "Stored in: " . "upload/" . $student_number.".jpg";
+                echo "保存在: " . "upload/" . $student_number.".jpg";
                 $avatar = "upload/" . $student_number.".jpg";
                 return $avatar;
             }
@@ -111,5 +118,4 @@ function handleFile($student_number){
         return false;
     }
 }
-
 ?>

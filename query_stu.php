@@ -45,6 +45,7 @@
         </thead>
         <tbody>
 <?php
+include 'config.php';
 # false 表示之前没有判断条件
 $has_position = false;
 $query = "select * from student";
@@ -78,7 +79,7 @@ if(isset($_REQUEST['stu_number']) && $_REQUEST['stu_number']!=null) {
         $has_position = true;
         $query .= " WHERE ";
     }
-    $query .= "student_number=" . $_REQUEST['stu_number'];
+    $query .= "student_number=" . "'" . $_REQUEST['stu_number'] . "'";
 }
 if(isset($_REQUEST['sex'])) {
     if ($has_position)
@@ -104,13 +105,12 @@ if(isset($_REQUEST['grade']) && $_REQUEST['grade'] != null){
     $query .= "grade=" . $_REQUEST;
 }
 
-$db = new SQLite3("student.sqlite");
 echo $query;
 $result = $db->query($query);
 if(!$result){
-    echo "db error";
+    echo "数据库错误";
 }else{
-    while($item = $result->fetchArray()){
+    while($item = $result->fetch()){
         $tr = "<tr>";
         $tr .= "<td class='large-1'><img src=".$item['avatar']."></td>";
         $tr .= "<td>".$item['name']."</td>";
@@ -124,7 +124,6 @@ if(!$result){
         echo $tr;
     }
 }
-$db->close();
 ?>
         </tbody>
     </table>

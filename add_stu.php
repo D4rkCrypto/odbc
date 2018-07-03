@@ -17,10 +17,16 @@ if(isset($_REQUEST['internet'])){
     else
         $hobby = implode(",",$checkbox);
 }
+# check class
+$pattern1 = '/^\d{7}$/';
+if(!preg_match($pattern1, $class)) {
+    echo "<script>alert(\"班级格式错误\");location.href=\"add_stu.html\"</script>";
+    return;
+}
 
 # check student number
-$pattern = '/^(SZ|SX|BX)[0-9]{7}$|^[0-9]{9}$/';
-if(!preg_match($pattern, $student_number)) {
+$pattern2 = '/^(SZ|SX|BX)\d{7}$|^\d{9}$/';
+if(!preg_match($pattern2, $student_number)) {
     echo "<script>alert(\"学号格式错误\");location.href=\"add_stu.html\"</script>";
     return;
 }
@@ -48,7 +54,7 @@ if(!$avatar){
     return;
 }
 
-$insert = "insert into student VALUES ( '$name', '$password', $class, '$student_number', '$sex',
+$insert = "insert into student VALUES ( '$name', '$password', '$class', '$student_number', '$sex',
  '$hobby', $grade, '$remark', '$avatar');";
 $query = "select * from student WHERE student_number = '$student_number'";
 
@@ -97,7 +103,6 @@ function handleFile($student_number){
             {
                 move_uploaded_file($_FILES["file"]["tmp_name"],
                     "upload/" . $student_number.".jpg");
-                echo "头像已存在: " . "upload/" . $student_number.".jpg";
                 $avatar = "upload/" . $student_number.".jpg";
                 return $avatar;
             }
@@ -105,7 +110,6 @@ function handleFile($student_number){
             {
                 move_uploaded_file($_FILES["file"]["tmp_name"],
                     "upload/" . $student_number.".jpg");
-                echo "保存在: " . "upload/" . $student_number.".jpg";
                 $avatar = "upload/" . $student_number.".jpg";
                 return $avatar;
             }
@@ -114,8 +118,8 @@ function handleFile($student_number){
     }
     else
     {
-        echo "<script>alert(\"头像不符合要求\")</script>";
-        return false;
+        $avatar = "upload/default.jpg";
+        return $avatar;
     }
 }
 ?>

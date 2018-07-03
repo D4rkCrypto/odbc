@@ -39,7 +39,7 @@ if($_FILES['file']['name']!=null){
         return;
     }
 }
-$update = "UPDATE student SET password='$password', name='$name', class='$class', hobby='$hobby', remark='$remark' WHERE student_number=$student_number;";
+$update = "UPDATE student SET password='$password', name='$name', class='$class', hobby='$hobby', remark='$remark' WHERE student_number='$student_number';";
 echo $update;
 echo $name;
 $result = $db->exec($update);

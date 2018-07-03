@@ -53,18 +53,18 @@ else{
         <?php
             $hobby = explode(',', $item['hobby']);
         ?>
-        <input id="cs" type="checkbox" name="internet[]" value="cs"  <?php if(in_array("cs", $hobby)){echo "checked";}?> />
-        <label for="cs">CS</label>
-        <br>
-        <input id="economics" type="checkbox" name="internet[]" value="economics" <?php if(in_array("economics", $hobby)){echo "checked";}?> />
-        <label for="economics">Economics</label>
-        <br>
-        <input id="trip" type="checkbox" name="internet[]" value="trip" <?php if(in_array("trip", $hobby)){echo "checked";}?> />
-        <label for="trip">Trip</label>
-        <br>
-        <input id="sleep" type="checkbox" name="internet[]" value="sleep" <?php if(in_array("sleep", $hobby)){echo "checked";}?> />
-        <label for="sleep">Sleep</label>
-        <br>
+        <input id="coding" type="checkbox" name="internet[]" <?php if(in_array("编程", $hobby)){echo "checked";}?>/>
+        <label for="coding">编程</label>
+        <input id="sports" type="checkbox" name="internet[]" <?php if(in_array("运动", $hobby)){echo "checked";}?>/>
+        <label for="sports">运动</label><br>
+        <input id="trip" type="checkbox" name="internet[]" <?php if(in_array("旅游", $hobby)){echo "checked";}?>/>
+        <label for="trip">旅游</label>
+        <input id="sleep" type="checkbox" name="internet[]" <?php if(in_array("睡觉", $hobby)){echo "checked";}?>/>
+        <label for="sleep">睡觉</label><br>
+        <input id="shopping" type="checkbox" name="internet[]" <?php if(in_array("购物", $hobby)){echo "checked";}?>/>
+        <label for="shopping">购物</label>
+        <input id="other" type="checkbox" name="internet[]" <?php if(in_array("其他", $hobby)){echo "checked";}?>/>
+        <label for="other">其他</label><br>
         <label>头像</label>
         <img class="th" src="<?php echo $item['avatar'];?>" /><br><br>
         <label>上传</label>

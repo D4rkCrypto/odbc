@@ -33,14 +33,14 @@
     <table class="large-12">
         <thead>
         <tr>
-            <th>Avatar</th>
-            <th>Name</th>
-            <th>Class</th>
-            <th>Student Number</th>
-            <th>Sex</th>
-            <th>Hobby</th>
-            <th>Grade</th>
-            <th>Remark</th>
+            <th>头像</th>
+            <th>姓名</th>
+            <th>班级</th>
+            <th>学号</th>
+            <th>性别</th>
+            <th>爱好</th>
+            <th>成绩</th>
+            <th>备注</th>
         </tr>
         </thead>
         <tbody>
@@ -116,7 +116,10 @@ if(!$result){
         $tr .= "<td>".$item['name']."</td>";
         $tr .= "<td>".$item['class']."</td>";
         $tr .= "<td>".$item['student_number']."</td>";
-        $tr .= "<td>".$item['sex']."</td>";
+        if($item['sex'] === 'male')
+            $tr .= "<td>男</td>";
+        if($item['sex'] === 'female')
+            $tr .= "<td>女</td>";
         $tr .= "<td>".$item['hobby']."</td>";
         $tr .= "<td>".$item['grade']."</td>";
         $tr .= "<td>".$item['remark']."</td>";

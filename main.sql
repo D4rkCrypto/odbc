@@ -14,7 +14,7 @@ CREATE TABLE `student`
 (
     name TEXT NOT NULL,
     password TEXT NOT NULL,
-    class int NOT NULL,
+    class VARCHAR(7) NOT NULL,
     student_number VARCHAR(9) PRIMARY KEY NOT NULL,
     sex TEXT NOT NULL,
     hobby TEXT NOT NULL,
@@ -24,10 +24,10 @@ CREATE TABLE `student`
 );
 
 BEGIN;
-INSERT INTO `student` VALUES ('ldy', 'ldy', 1, '123710502', 'male', 'cs', 100.0, '好孩子', 'upload/1123710502.jpg');
-INSERT INTO `student` VALUES ('ch', 'ch', 1, '123710518', 'male', 'trip', 90.0, '运动达人', 'upload/1123710518.jpg');
-INSERT INTO `student` VALUES ('skyline', 'line', 1, '123710401', 'female', 'cs,economics,trip', 96.0, '女汉子', 'upload/1123710401.jpg');
-INSERT INTO `student` VALUES ('sf', 'sf', 1, '123710402', 'male', 'cs,economics,trip', 60.0, '', 'upload/1123710402.jpg');
-INSERT INTO `student` VALUES ('歪歪', 'test123', 1, '081510217', 'male', 'cs', 100.0, 'good', 'upload/081510217.jpg');
-INSERT INTO `student` VALUES ('小歪歪', 'test', 1615001, '161520109', 'male', 'economics,sleep', 80.0, '测试', 'upload/161520109.jpg');
+INSERT INTO `student` VALUES ('小轩', 'xiaoxuan', '1234567', '123710502', 'male', '编程,购物', 100.0, '好孩子', 'upload/123710502.jpg');
+INSERT INTO `student` VALUES ('学弟', 'xuedi', '1234567', '123710518', 'male', '旅游', 90.0, '运动达人', 'upload/123710518.jpg');
+INSERT INTO `student` VALUES ('skyline', 'line', '1234567', '123710401', 'female', '编程,旅游,运动', 96.0, '女汉子', 'upload/123710401.jpg');
+INSERT INTO `student` VALUES ('sf', 'sf', '1234567', '123710402', 'male', '运动,睡觉', 60.0, '', 'upload/123710402.jpg');
+INSERT INTO `student` VALUES ('歪歪', 'test', '1615001', '081510217', 'male', '睡觉', 100.0, 'good', 'upload/081510217.jpg');
+INSERT INTO `student` VALUES ('小歪歪', 'test', '1615001', '161520109', 'male', '', 80.0, '测试', 'upload/161520109.jpg');
 COMMIT;

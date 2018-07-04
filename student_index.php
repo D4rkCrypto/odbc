@@ -48,7 +48,7 @@ else{
         <label>学号</label>
         <input type="text" name="std_number" value="<?php echo $item['student_number'];?>" readonly />
         <label>性别</label>
-        <input type="text" name="sex" value="<?php echo $item['sex']?>" readonly />
+        <input type="text" name="sex" value="<?php if($item['sex'] === 'male')echo '男';else echo '女';?>" readonly />
         <label>爱好</label>
         <?php
             $hobby = explode(',', $item['hobby']);

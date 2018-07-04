@@ -30,7 +30,7 @@ if($level=="administrator")
     }else{
         $item = $result->fetch();
         if($item){
-            echo "<script>alert(\"登录成功\")</script>";
+            echo "<script>alert(\"学生登录成功\")</script>";
             $student_number = $item['student_number'];
             echo "<script>location.href=\"student_index.php?id=$student_number\";</script>";
         }else{
